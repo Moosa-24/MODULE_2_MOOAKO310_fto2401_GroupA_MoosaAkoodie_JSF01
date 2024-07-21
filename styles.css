@@ -1,0 +1,139 @@
+/* Basic Reset and Global Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    background-color: #666; /* Updated background color */
+    color: #333;
+}
+
+.container {
+    width: 80%;
+    margin: 0 auto;
+}
+
+/* Product Container */
+.product-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px; /* Adjusted gap */
+    padding: 8px; /* Adjusted padding */
+}
+
+/* Product Card */
+.product-card {
+    border: 1px solid #ccc;
+    padding: 16px;
+    margin: 8px; /* Adjusted margin */
+    width: calc(25% - 16px); /* Adjusted width */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    text-align: center;
+    background-color: #fff;
+    transition: box-shadow 0.3s, transform 0.3s;
+}
+
+.product-card:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transform: scale(1.02);
+}
+
+/* Product Image */
+.product-image {
+    max-width: 100%;
+    height: auto;
+    border-radius: 4px;
+    background-color: #f0f0f0;
+    border: 1px solid #ddd;
+    position: relative;
+}
+
+.product-image::after {
+    content: 'Image not available';
+    display: block;
+    color: #888;
+    font-size: 0.75rem;
+    text-align: center;
+    padding: 16px;
+}
+
+/* Product Title */
+.product-title {
+    font-size: 1.5rem; /* Increased size */
+    margin: 12px 0;
+}
+
+/* Product Description */
+.product-description {
+    font-size: 0.875rem;
+    color: #666;
+}
+
+/* Product Price */
+.product-price {
+    font-size: 1.125rem;
+    color: #000;
+    font-weight: bold;
+}
+
+/* Responsive Design */
+@media (max-width: 1200px) {
+    .product-card {
+        width: calc(33.333% - 16px); /* 3 columns */
+    }
+}
+
+@media (max-width: 900px) {
+    .product-card {
+        width: calc(50% - 16px); /* 2 columns */
+    }
+}
+
+@media (max-width: 600px) {
+    .product-card {
+        width: calc(100% - 16px); /* 1 column */
+    }
+}
+
+/* Header */
+header {
+    background: #333;
+    color: #fff;
+    padding: 1rem 0;
+    text-align: center;
+}
+
+header h1 {
+    margin: 0;
+}
+
+/* Button */
+button {
+    background: #e74c3c;
+    color: #fff;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+button:hover {
+    background: #c0392b;
+}
+
+/* Footer */
+footer {
+    background: #333;
+    color: #fff;
+    text-align: center;
+    padding: 1rem 0;
+    position: fixed;
+    width: 100%;
+    bottom: 0;
+}

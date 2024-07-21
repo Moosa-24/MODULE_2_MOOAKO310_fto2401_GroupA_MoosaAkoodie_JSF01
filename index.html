@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="styles.css">
+  <title>Alpine.js E-Commerce Store</title>
+  <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+</head>
+<body class="body">
+  <!-- Header Component -->
+  <header x-data="headerData()">
+    <div class="header-content">
+      <h1>My E-Commerce Store</h1>
+      <nav>
+        <ul>
+          <li><button @click="fetchProducts('all')">All Products</button></li>
+          <li><button @click="fetchProducts('electronics')">Electronics</button></li>
+          <li><button @click="fetchProducts('jewelery')">Jewelery</button></li>
+          <li><button @click="fetchProducts('men\'s clothing')">Men's Clothing</button></li>
+          <li><button @click="fetchProducts('women\'s clothing')">Women's Clothing</button></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Filter Component -->
+  <div x-data="filterData()" x-init="fetchCategories()">
+    <select x-model="$store.productStore.selectedCategory" @change="$store.productStore.filterProducts()">
+      <option value="">Select Category</option>
+      <template x-for="category in categories" :key="category">
+        <option :value="category" x-text="category"></option>
+      </template>
+    </select>
+  </div>
+
+  <!-- Sort Component -->
+  <div x-data="sortData()">
+    <select x-model="$store.productStore.selectedSort" @change="$store.productStore.sortProducts()">
+      <option value="asc">Price: Low to High</option>
+      <option value="desc">Price: High to Low</option>
+    </select>
+  </div>
+
+  <!-- Product List Component -->
+  <div x-data="productList()" x-init="$store.productStore.fetchProducts('all')">
+    <div class="product-container">
+      <template x-for="product in $store.productStore.products" :key="product.id">
+        <div class="product-card">
+          <img :src="product.image" :alt="product.title" class="product-image"/>
+          <h2 x-text="product.title" class="product-title"></h2>
+          <p x-text="product.description" class="product-description"></p>
+          <p x-text="'$' + product.price" class="product-price"></p>
+        </div>
+      </template>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener('alpine:init', () => {
+      Alpine.store('productStore', {
+        products: [],
+        selectedCategory: '',
+        selectedSort: 'asc',
+        categories: [],
+
+        async fetchProducts(category) {
+          let url = 'https://fakestoreapi.com/products';
+          if (category && category !== 'all') {
+            url += `/category/${category}`;
+          }
+          const response = await fetch(url);
+          this.products = await response.json();
+        },
+
+        async fetchCategories() {
+          const response = await fetch('https://fakestoreapi.com/products/categories');
+          this.categories = await response.json();
+        },
+
+        filterProducts() {
+          this.fetchProducts(this.selectedCategory);
+        },
+
+        sortProducts() {
+          this.products.sort((a, b) => {
+            if (this.selectedSort === 'asc') {
+              return a.price - b.price;
+            } else {
+              return b.price - a.price;
+            }
+          });
+        }
+      });
+    });
+
+    function headerData() {
+      return {
+        fetchProducts(category) {
+          Alpine.store('productStore').fetchProducts(category);
+        }
+      };
+    }
+
+    function filterData() {
+      return {
+        categories: [],
+        fetchCategories() {
+          Alpine.store('productStore').fetchCategories();
+        },
+        filterProducts() {
+          Alpine.store('productStore').filterProducts();
+        }
+      };
+    }
+
+    function sortData() {
+      return {
+        sortProducts() {
+          Alpine.store('productStore').sortProducts();
+        }
+      };
+    }
+
+    function productList() {
+      return {
+        products: [],
+        fetchProducts(category) {
+          Alpine.store('productStore').fetchProducts(category);
+        }
+      };
+    }
+  </script>
+</body>
+</html>

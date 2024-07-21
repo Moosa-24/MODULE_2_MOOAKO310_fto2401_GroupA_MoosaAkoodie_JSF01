@@ -1,0 +1,18 @@
+<div x-data="productCard()" class="product-card">
+    <img :src="product.image" alt="" class="product-image">
+    <h3 class="product-title" x-text="product.title"></h3>
+    <p class="product-price" x-text="'$' + product.price"></p>
+    <button @click="viewProduct(product.id)">View Details</button>
+  </div>
+  
+  <script>
+    function productCard() {
+      return {
+        product: {},
+        viewProduct(id) {
+          // Handle product view logic
+        }
+      }
+    }
+  </script>
+  

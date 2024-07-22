@@ -14,11 +14,11 @@
       <h1>My E-Commerce Store</h1>
       <nav>
         <ul>
-          <li><button @click="fetchProducts('all')">All Products</button></li>
-          <li><button @click="fetchProducts('electronics')">Electronics</button></li>
-          <li><button @click="fetchProducts('jewelery')">Jewelery</button></li>
-          <li><button @click="fetchProducts('men\'s clothing')">Men's Clothing</button></li>
-          <li><button @click="fetchProducts('women\'s clothing')">Women's Clothing</button></li>
+          <li><button x-on:click="fetchProducts('all')">All Products</button></li>
+          <li><button x-on:click="fetchProducts('electronics')">Electronics</button></li>
+          <li><button x-on:click="fetchProducts('jewelery')">Jewelery</button></li>
+          <li><button x-on:click="fetchProducts('men\'s clothing')">Men's Clothing</button></li>
+          <li><button x-on:click="fetchProducts('women\'s clothing')">Women's Clothing</button></li>
         </ul>
       </nav>
     </div>
@@ -26,7 +26,7 @@
 
   <!-- Filter Component -->
   <div x-data="filterData()" x-init="fetchCategories()">
-    <select x-model="$store.productStore.selectedCategory" @change="$store.productStore.filterProducts()">
+    <select x-model="$store.productStore.selectedCategory" x-on:change="$store.productStore.filterProducts()">
       <option value="">Select Category</option>
       <template x-for="category in categories" :key="category">
         <option :value="category" x-text="category"></option>
@@ -36,7 +36,7 @@
 
   <!-- Sort Component -->
   <div x-data="sortData()">
-    <select x-model="$store.productStore.selectedSort" @change="$store.productStore.sortProducts()">
+    <select x-model="$store.productStore.selectedSort" x-on:change="$store.productStore.sortProducts()">
       <option value="asc">Price: Low to High</option>
       <option value="desc">Price: High to Low</option>
     </select>

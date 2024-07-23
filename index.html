@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -14,153 +15,213 @@
         <div class="brand">
           <img src="assets/online-shop.png" alt="Brand Logo" class="brand-logo">
           <h1 class="header-title">SwiftCart</h1>
-      </div>
+        </div>
         <div class="header-right">
-            <h3 class="wishlist"><a href="#">Wishlist</a></h3>
-            <div class="cart">
-                <a href="#">
-                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="cart-icon">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 00-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 00-16.536-1.84M7.5 14.25L5.106 5.272M6 20.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm12.75 0a.75.75 0 11-1.5 0 .75.75 0 011.5 0z"></path>
-                </svg>
-                </a>
-                <span class="cart-badge">2</span>
-            </div>
-            <div class="login"><a href="#">Login</a></div>
+          <h3 class="wishlist">
+            <a href="#" class="wishlist-btn">
+              <span class="wishlist-icon">♡</span>
+              <span class="wishlist-text">Wishlist</span>
+            </a>
+          </h3>
+          <div class="cart">
+            <a href="#">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="cart-icon">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 00-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 00-16.536-1.84M7.5 14.25L5.106 5.272M6 20.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm12.75 0a.75.75 0 11-1.5 0 .75.75 0 011.5 0z"></path>
+              </svg>
+            </a>
+            <span class="cart-badge">2</span>
+          </div>
+          <div class="login"><a href="#">Login</a></div>
         </div>
       </div>
-  </header>
+    </header>
 
-  <!-- Filter and Sort Wrapper -->
-<div class="filter-sort-container">
-  <!-- Filter Component -->
-  <div x-data="filterData()" x-init="fetchCategories()" class="filter">
-    <select class="filter-select" x-model="$store.productStore.selectedCategory" x-on:change="$store.productStore.filterProducts()">
-      <option value="">Select Category</option>
-      <option value="all">All Categories</option>
-      <option value="electronics">Electronics</option>
-      <option value="jewelery">Jewelery</option>
-      <option value="men's clothing">Men's Clothing</option>
-      <option value="women's clothing">Women's Clothing</option>
-    </select>
-  </div>
+    <!-- Filter and Sort Wrapper -->
+    <div class="filter-sort-container">
+      <!-- Filter Component -->
+      <div x-data="filterData()" x-init="fetchCategories()" class="filter">
+        <select class="filter-select" x-model="$store.productStore.selectedCategory" x-on:change="$store.productStore.filterProducts()">
+          <option value="">Select Category</option>
+          <option value="all">All Categories</option>
+          <option value="electronics">Electronics</option>
+          <option value="jewelery">Jewelery</option>
+          <option value="men's clothing">Men's Clothing</option>
+          <option value="women's clothing">Women's Clothing</option>
+        </select>
+      </div>
 
-    <!-- Sort Component -->
-  <div x-data="sortData()" class="sort">
-    <label for="sort-select" class="sort-label">Sort by:</label>
-    <select id="sort-select" class="sort-select" x-model="selectedSort" x-on:change="sortProducts()">
-      <option value="">Default</option>
-      <option value="asc">Low to High</option>
-      <option value="desc">High to Low</option>
-    </select>
-  </div>
-</div>
+      <!-- Sort Component -->
+      <div x-data="sortData()" class="sort">
+        <label for="sort-select" class="sort-label">Sort by:</label>
+        <select id="sort-select" class="sort-select" x-model="selectedSort" x-on:change="sortProducts()">
+          <option value="">Default</option>
+          <option value="asc">Low to High</option>
+          <option value="desc">High to Low</option>
+        </select>
+      </div>
+    </div>
 
-  <!-- Product List Component -->
-<div x-data="productList()" x-init="$store.productStore.fetchProducts('all')" class="product-list">
-  <div class="product-container">
-    <template x-for="product in $store.productStore.products" :key="product.id">
-      <div class="product-card">
-        <img :src="product.image" :alt="product.title" class="product-image"/>
-        <h2 x-text="product.title" class="product-title"></h2>
-        <p x-text="'$' + product.price" class="product-price"></p>
-        
-        <!-- Star Rating -->
-        <!-- Assuming this is inside a loop or where you have access to `product` -->
-  <div class="stars">
-    <span class="star" :class="{ 'filled': product.rating >= 1 }">&#9733;</span>
-    <span class="star" :class="{ 'filled': product.rating >= 2 }">&#9733;</span>
-    <span class="star" :class="{ 'filled': product.rating >= 3 }">&#9733;</span>
-    <span class="star" :class="{ 'filled': product.rating >= 4 }">&#9733;</span>
-    <span class="star" :class="{ 'filled': product.rating >= 5 }">&#9733;</span>
-  </div>
-</div>
+    <!-- Product List Component -->
+    <div x-data="productList()" x-init="$store.productStore.fetchProducts('all')" class="product-list">
+      <div class="product-container">
+        <template x-for="product in $store.productStore.products" :key="product.id">
+          <div class="product-card" x-on:click="openModal(product)">
+            <img :src="product.image" :alt="product.title" class="product-image"/>
+            <h2 x-text="product.title" class="product-title"></h2>
+            <!-- Star Rating -->
+            <div class="stars">
+              <span class="star" :class="{ 'filled': product.rating >= 1 }">&#9733;</span>
+              <span class="star" :class="{ 'filled': product.rating >= 2 }">&#9733;</span>
+              <span class="star" :class="{ 'filled': product.rating >= 3 }">&#9733;</span>
+              <span class="star" :class="{ 'filled': product.rating >= 4 }">&#9733;</span>
+              <span class="star" :class="{ 'filled': product.rating >= 5 }">&#9733;</span>
+            </div>
+            <p x-text="'$' + product.price" class="product-price"></p>
+            <!-- Add to Cart Button -->
+            <button class="add-to-cart">Add to Cart</button>
+            <!-- Favorites Button -->
+            <button class="favorites-btn">
+              <span class="favorites-icon"></span>
+            </button>
+          </div>
+        </template>
+      </div>
+    </div>
 
-        
-    </template>
-  </div>
-</div>
+    <!-- Modal Component -->
+    <div x-data="modalData()" x-show="$store.modal.open" @click.away="$store.modal.open = false" class="modal-overlay">
+      <div class="modal-content">
+        <button @click="$store.modal.open = false" class="modal-close">&times;</button>
+        <div class="modal-body">
+          <img x-bind:src="$store.modal.product?.image" x-bind:alt="$store.modal.product?.title" class="modal-img"/>
+          <h2 x-text="$store.modal.product?.title" class="modal-title"></h2>
+          <p x-text="'$' + $store.modal.product?.price" class="modal-price"></p>
+          <p x-text="$store.modal.product?.category" class="modal-category"></p>
+          <div class="stars modal-rating">
+            <span class="star" :class="{ 'filled': $store.modal.product?.rating >= 1 }">&#9733;</span>
+            <span class="star" :class="{ 'filled': $store.modal.product?.rating >= 2 }">&#9733;</span>
+            <span class="star" :class="{ 'filled': $store.modal.product?.rating >= 3 }">&#9733;</span>
+            <span class="star" :class="{ 'filled': $store.modal.product?.rating >= 4 }">&#9733;</span>
+            <span class="star" :class="{ 'filled': $store.modal.product?.rating >= 5 }">&#9733;</span>
+          </div>
+          <p x-text="$store.modal.product?.description" class="modal-desc"></p>
+        </div>
+      </div>
+    </div>
 
+    <script>
+      document.addEventListener('alpine:init', () => {
+        Alpine.store('productStore', {
+          products: [],
+          selectedCategory: '',
+          selectedSort: 'asc',
+          categories: [],
 
-  <script>
-    document.addEventListener('alpine:init', () => {
-      Alpine.store('productStore', {
-        products: [],
-        selectedCategory: '',
-        selectedSort: 'asc',
-        categories: [],
-
-        async fetchProducts(category) {
-          let url = 'https://fakestoreapi.com/products';
-          if (category && category !== 'all') {
-            url += `/category/${category}`;
-          }
-          const response = await fetch(url);
-          this.products = await response.json();
-          this.products = this.products.map(product => ({
-            ...product,
-            rating: Math.floor(Math.random() * 5) + 1 // Random rating between 1 and 5
-          }));
-        },
-
-        async fetchCategories() {
-          const response = await fetch('https://fakestoreapi.com/products/categories');
-          this.categories = await response.json();
-        },
-
-        filterProducts() {
-          this.fetchProducts(this.selectedCategory);
-        },
-
-        sortProducts() {
-          this.products.sort((a, b) => {
-            if (this.selectedSort === 'asc') {
-              return a.price - b.price;
-            } else {
-              return b.price - a.price;
+          async fetchProducts(category) {
+            let url = 'https://fakestoreapi.com/products';
+            if (category && category !== 'all') {
+              url += `/category/${category}`;
             }
-          });
-        }
+            const response = await fetch(url);
+            this.products = await response.json();
+            this.products = this.products.map(product => ({
+              ...product,
+              rating: Math.floor(Math.random() * 5) + 1 // Random rating between 1 and 5
+            }));
+            this.sortProducts(); // Sort products after fetching
+          },
+          async fetchCategories() {
+            const response = await fetch('https://fakestoreapi.com/products/categories');
+            this.categories = await response.json();
+          },
+
+          filterProducts() {
+            this.fetchProducts(this.selectedCategory);
+          },
+
+          sortProducts() {
+            console.log('Selected Sort:', this.selectedSort); // Log the current sort order
+
+            if (this.selectedSort === 'asc') {
+              this.products.sort((a, b) => a.price - b.price);
+            } else if (this.selectedSort === 'desc') {
+              this.products.sort((a, b) => b.price - a.price);
+            } else {
+              // Default sorting: maintain current order or re-fetch to maintain original order
+              this.fetchProducts(this.selectedCategory); // Re-fetch products to maintain original order
+            }
+
+            console.log('Sorted Products:', this.products); // Log sorted products
+          }
+        });
+
+        Alpine.store('modal', {
+          open: false,
+          product: null
+        });
       });
-    });
 
-    function headerData() {
-      return {
-        fetchProducts(category) {
-          Alpine.store('productStore').fetchProducts(category);
-        }
-      };
-    }
+      function headerData() {
+        return {
+          fetchProducts(category) {
+            Alpine.store('productStore').fetchProducts(category);
+          }
+        };
+      }
 
-    function filterData() {
-      return {
-        categories: [],
-        fetchCategories() {
-          Alpine.store('productStore').fetchCategories();
-        },
-        filterProducts() {
-          Alpine.store('productStore').filterProducts();
-        }
-      };
-    }
+      function filterData() {
+        return {
+          categories: [],
+          fetchCategories() {
+            Alpine.store('productStore').fetchCategories();
+          },
+          filterProducts() {
+            Alpine.store('productStore').filterProducts();
+          }
+        };
+      }
 
-    function sortData() {
-      return {
-        selectedSort: '',
-        sortProducts() {
-          Alpine.store('productStore').sortProducts();
-        }
-      };
-    }
+      function sortData() {
+        return {
+          selectedSort: '', // Default value for sorting
 
+          sortProducts() {
+            const store = Alpine.store('productStore');
 
-    function productList() {
-      return {
-        products: [],
-        fetchProducts(category) {
-          Alpine.store('productStore').fetchProducts(category);
-        }
-      };
-    }
-  </script>
+            // Update the selectedSort in the store
+            store.selectedSort = this.selectedSort;
+
+            // Sort products based on selectedSort value
+            if (this.selectedSort === 'asc') {
+              store.products.sort((a, b) => a.price - b.price);
+            } else if (this.selectedSort === 'desc') {
+              store.products.sort((a, b) => b.price - a.price);
+            } else {
+              // Default sorting: maintain current order or any other default logic
+              store.fetchProducts(store.selectedCategory); // Re-fetch products to maintain original order
+            }
+
+            console.log('Sorted Products:', store.products); // Log sorted products
+          }
+        };
+      }
+
+      function productList() {
+        return {
+          openModal(product) {
+            Alpine.store('modal').product = product;
+            Alpine.store('modal').open = true;
+          }
+        };
+      }
+
+      function modalData() {
+        return {
+          close() {
+            Alpine.store('modal').open = false;
+          }
+        };
+      }
+    </script>
 </body>
-</html>
+</html>	

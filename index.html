@@ -8,53 +8,78 @@
   <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
 </head>
 <body class="body">
-  <!-- Header Component -->
-  <header x-data="headerData()">
-    <div class="header-content">
-      <h1>My E-Commerce Store</h1>
-      <nav>
-        <ul>
-          <li><button x-on:click="fetchProducts('all')">All Products</button></li>
-          <li><button x-on:click="fetchProducts('electronics')">Electronics</button></li>
-          <li><button x-on:click="fetchProducts('jewelery')">Jewelery</button></li>
-          <li><button x-on:click="fetchProducts('men\'s clothing')">Men's Clothing</button></li>
-          <li><button x-on:click="fetchProducts('women\'s clothing')">Women's Clothing</button></li>
-        </ul>
-      </nav>
-    </div>
+    <!-- Header Component -->
+    <header x-data="headerData()" class="header">
+      <div class="header-content">
+        <div class="brand">
+          <img src="assets/online-shop.png" alt="Brand Logo" class="brand-logo">
+          <h1 class="header-title">SwiftCart</h1>
+      </div>
+        <div class="header-right">
+            <h3 class="wishlist"><a href="#">Wishlist</a></h3>
+            <div class="cart">
+                <a href="#">
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="cart-icon">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 00-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 00-16.536-1.84M7.5 14.25L5.106 5.272M6 20.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm12.75 0a.75.75 0 11-1.5 0 .75.75 0 011.5 0z"></path>
+                </svg>
+                </a>
+                <span class="cart-badge">2</span>
+            </div>
+            <div class="login"><a href="#">Login</a></div>
+        </div>
+      </div>
   </header>
 
+  <!-- Filter and Sort Wrapper -->
+<div class="filter-sort-container">
   <!-- Filter Component -->
-  <div x-data="filterData()" x-init="fetchCategories()">
-    <select x-model="$store.productStore.selectedCategory" x-on:change="$store.productStore.filterProducts()">
+  <div x-data="filterData()" x-init="fetchCategories()" class="filter">
+    <select class="filter-select" x-model="$store.productStore.selectedCategory" x-on:change="$store.productStore.filterProducts()">
       <option value="">Select Category</option>
-      <template x-for="category in categories" :key="category">
-        <option :value="category" x-text="category"></option>
-      </template>
+      <option value="all">All Categories</option>
+      <option value="electronics">Electronics</option>
+      <option value="jewelery">Jewelery</option>
+      <option value="men's clothing">Men's Clothing</option>
+      <option value="women's clothing">Women's Clothing</option>
     </select>
   </div>
 
-  <!-- Sort Component -->
-  <div x-data="sortData()">
-    <select x-model="$store.productStore.selectedSort" x-on:change="$store.productStore.sortProducts()">
-      <option value="asc">Price: Low to High</option>
-      <option value="desc">Price: High to Low</option>
+    <!-- Sort Component -->
+  <div x-data="sortData()" class="sort">
+    <label for="sort-select" class="sort-label">Sort by:</label>
+    <select id="sort-select" class="sort-select" x-model="selectedSort" x-on:change="sortProducts()">
+      <option value="">Default</option>
+      <option value="asc">Low to High</option>
+      <option value="desc">High to Low</option>
     </select>
   </div>
+</div>
 
   <!-- Product List Component -->
-  <div x-data="productList()" x-init="$store.productStore.fetchProducts('all')">
-    <div class="product-container">
-      <template x-for="product in $store.productStore.products" :key="product.id">
-        <div class="product-card">
-          <img :src="product.image" :alt="product.title" class="product-image"/>
-          <h2 x-text="product.title" class="product-title"></h2>
-          <p x-text="product.description" class="product-description"></p>
-          <p x-text="'$' + product.price" class="product-price"></p>
-        </div>
-      </template>
-    </div>
+<div x-data="productList()" x-init="$store.productStore.fetchProducts('all')" class="product-list">
+  <div class="product-container">
+    <template x-for="product in $store.productStore.products" :key="product.id">
+      <div class="product-card">
+        <img :src="product.image" :alt="product.title" class="product-image"/>
+        <h2 x-text="product.title" class="product-title"></h2>
+        <p x-text="'$' + product.price" class="product-price"></p>
+        
+        <!-- Star Rating -->
+        <!-- Assuming this is inside a loop or where you have access to `product` -->
+  <div class="stars">
+    <span class="star" :class="{ 'filled': product.rating >= 1 }">&#9733;</span>
+    <span class="star" :class="{ 'filled': product.rating >= 2 }">&#9733;</span>
+    <span class="star" :class="{ 'filled': product.rating >= 3 }">&#9733;</span>
+    <span class="star" :class="{ 'filled': product.rating >= 4 }">&#9733;</span>
+    <span class="star" :class="{ 'filled': product.rating >= 5 }">&#9733;</span>
   </div>
+</div>
+
+        
+    </template>
+  </div>
+</div>
+
 
   <script>
     document.addEventListener('alpine:init', () => {
@@ -71,6 +96,10 @@
           }
           const response = await fetch(url);
           this.products = await response.json();
+          this.products = this.products.map(product => ({
+            ...product,
+            rating: Math.floor(Math.random() * 5) + 1 // Random rating between 1 and 5
+          }));
         },
 
         async fetchCategories() {
@@ -116,11 +145,13 @@
 
     function sortData() {
       return {
+        selectedSort: '',
         sortProducts() {
           Alpine.store('productStore').sortProducts();
         }
       };
     }
+
 
     function productList() {
       return {
